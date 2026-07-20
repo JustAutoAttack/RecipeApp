@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+@plugin "@tailwindcss/typography";
+
+@theme {
+	/* Recipe Engine UI Tokens (Neutral, Modern, Clean) */
+	--color-bg-primary: #ffffff;
+	--color-bg-secondary: #f9fafb;
+	--color-bg-hover: #f3f4f6;
+
+	--color-text-primary: #111827;
+	--color-text-secondary: #6b7280;
+
+	--color-accent-primary: #2563eb;
+	--color-accent-hover: #1d4ed8;
+
+	--color-border: #e5e7eb;
+
+	/* Utility Mappings — only alias the names that actually differ */
+	--color-bg: var(--color-bg-primary);
+	--color-text: var(--color-text-primary);
+	--color-accent: var(--color-accent-primary);
+
+	--font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-text);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+}
+
+/* Base styles for recipe content */
+.recipe-prose {
+	@apply prose prose-slate max-w-none;
+}
+
+.recipe-prose code {
+	@apply font-mono bg-gray-100 px-1.5 py-0.5 rounded text-sm;
+}
+
+/* Hide scrollbar visually while keeping scroll functionality */
+.scrollbar-hide {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none; /* IE/Edge legacy */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none; /* Chrome, Safari, Edge (Chromium) */
+}
