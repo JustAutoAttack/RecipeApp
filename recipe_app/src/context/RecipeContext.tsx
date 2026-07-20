@@ -6,19 +6,29 @@ import {
 	ReactNode
 } from 'react';
 
-import { Recipe } from '../types';
+import { Ingredient, Recipe } from '../types';
 import { mockRecipes } from '../data/mockRecipes';
 
-interface NewRecipeInput {
+export interface RecipeFormData {
 	title: string;
 	cuisine: string[];
 	cook_time_minutes: number;
+	ingredients: Ingredient[];
+	instructions: string[];
+	description: string;
+	history: string;
+	substitutions: string;
+	allergens: string[];
+	image_url: string;
+	images: string[];
 }
 
 interface RecipeContextValue {
 	recipes: Recipe[];
 	getRecipe: (id: string) => Recipe | undefined;
-	addRecipe: (data: NewRecipeInput) => Recipe;
+	addRecipe: (data: RecipeFormData) => Recipe;
+	updateRecipe: (id: string, data: RecipeFormData) => void;
+	deleteRecipe: (id: string) => void;
 	toggleFavorite: (id: string) => void;
 }
 
@@ -34,21 +44,31 @@ export const RecipeProvider = ({ children }: { children: ReactNode }) => {
 		[recipes]
 	);
 
-	const addRecipe = useCallback((data: NewRecipeInput) => {
+	const addRecipe = useCallback((data: RecipeFormData) => {
 		const now = new Date().toISOString();
 		const recipe: Recipe = {
 			id: String(nextId++),
-			title: data.title,
-			cuisine: data.cuisine,
 			favorite: false,
-			cook_time_minutes: data.cook_time_minutes,
-			ingredients: [],
-			instructions: [],
+			...data,
 			created_at: now,
 			updated_at: now
 		};
 		setRecipes((prev) => [recipe, ...prev]);
 		return recipe;
+	}, []);
+
+	const updateRecipe = useCallback((id: string, data: RecipeFormData) => {
+		setRecipes((prev) =>
+			prev.map((r) =>
+				r.id === id
+					? { ...r, ...data, updated_at: new Date().toISOString() }
+					: r
+			)
+		);
+	}, []);
+
+	const deleteRecipe = useCallback((id: string) => {
+		setRecipes((prev) => prev.filter((r) => r.id !== id));
 	}, []);
 
 	const toggleFavorite = useCallback((id: string) => {
@@ -59,7 +79,14 @@ export const RecipeProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<RecipeContext.Provider
-			value={{ recipes, getRecipe, addRecipe, toggleFavorite }}
+			value={{
+				recipes,
+				getRecipe,
+				addRecipe,
+				updateRecipe,
+				deleteRecipe,
+				toggleFavorite
+			}}
 		>
 			{children}
 		</RecipeContext.Provider>
