@@ -1,4 +1,4 @@
-# Recipe Engine
+# Recipe App
 
 A local-first, high-performance recipe management IDE designed for precision nutrition. By utilizing a **Rust-powered backend** and a **React frontend**, the application ensures that your nutrition data is managed with absolute integrity, remains accessible offline, and synchronizes seamlessly across all your devices.
 
