@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { CollapsibleSection } from '../components/atoms/CollapsibleSection';
 import { RecipeGrid } from '../components/organisms/RecipeGrid';
 import { RecentsRow } from '../components/organisms/RecentsRow';
 import { FilterBar } from '../components/organisms/FilterBar';
-import { CollapsibleSection } from '../components/molecules/CollapsibleSection';
 import { useRecipes } from '../context/RecipeContext';
 import { CuisineMode, Recipe, SortOption } from '../types';
 

@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
 import { Dashboard } from './pages/Dashboard';
 import { RecipeDetail } from './pages/RecipeDetail';
-import { Footer } from './components/molecules/Footer';
+import { Footer } from './components/atoms/Footer';
 import { TopNav } from './components/organisms/TopNav';
 import { RecipeProvider } from './context/RecipeContext';
 import { PreferencesProvider } from './context/PreferencesContext';

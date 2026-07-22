@@ -1,4 +1,5 @@
 import { X } from 'lucide-react';
+
 import { Ingredient } from '../../types';
 import { getSelectableUnits, getUnitDef } from '../../utils/units';
 import { usePreferences } from '../../context/PreferencesContext';
@@ -16,8 +17,6 @@ export const EditableIngredientRow = ({
 }: Props) => {
 	const { unitSystem } = usePreferences();
 	const baseUnits = getSelectableUnits(unitSystem);
-	// Keep the ingredient's current unit selectable even if it belongs to the other system,
-	// so switching the global preference doesn't silently blank out an existing selection.
 	const currentDef = getUnitDef(ingredient.unit);
 	const units = baseUnits.some((u) => u.value === ingredient.unit)
 		? baseUnits

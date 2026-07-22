@@ -20,21 +20,20 @@ across all your devices.
 
 ## Feature Roadmap & Status
 
-| Feature                 | Description                                                       | Status     |
-| :---------------------- | :---------------------------------------------------------------- | :--------- |
-| **Recipe Management**   | Create, edit, and store recipes (ingredients, instructions, etc). | Planned |
-| **Ingredient Tracking** | Granular data: name, brand, amount, and units.                    | Planned |
-| **Advanced Metadata**   | Substitutions, allergy notes, and version history.                | Planned |
-| **Media Support**       | Ability to attach photos to individual recipes.                   | Planned |
-| **Data Export**         | Export capabilities to PDF, JSON, and CSV.                        | Planned |
-| **Print Support**       | Formatted, print-ready document generation.                       | Planned |
-| **Cloud Sync**          | Real-time bidirectional sync via Supabase.                        | Planned |
-| **Auth/Login**          | Secure user authentication and data isolation.                    | Planned |
+| Feature                 | Description                                                             | Status  |
+| :---------------------- | :---------------------------------------------------------------------- | :------ |
+| **Recipe Management**   | Create, edit, and store recipes (ingredients, instructions, etc).       | Planned |
+| **Ingredient Tracking** | Granular data: Name, brand, amount, and units.                          | Planned |
+| **Advanced Metadata**   | Substitutions, allergy notes, and history.                              | Planned |
+| **Media Support**       | Ability to attach photos to individual recipes. Upload/Download photos. | Planned |
+| **Data Export**         | Export capabilities to PDF, JSON, and CSV.                              | Planned |
+| **Print Support**       | Formatted, print-ready document generation.                             | Planned |
+| **Cloud Sync**          | Real-time bidirectional sync via Supabase.                              | Planned |
+| **Auth/Login**          | Secure user authentication and data isolation.                          | Planned |
 
 ## Why This Stack?
 
-The architecture is built for **data ownership** and **zero-latency
-interaction**.
+The architecture is built for **data ownership** and **zero-latency interaction**.
 
 - **Tauri:** Leverages the OS native webview for a lightweight, secure
   footprint, ensuring the app runs efficiently on desktop and mobile without the

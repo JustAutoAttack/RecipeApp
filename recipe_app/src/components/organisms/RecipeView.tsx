@@ -11,10 +11,10 @@ import {
 	AlertTriangle
 } from 'lucide-react';
 
-import { IngredientRow } from '../molecules/IngredientRow';
+import { IngredientRow } from '../atoms/IngredientRow';
 import { EditableIngredientRow } from '../molecules/EditableIngredientRow';
 import { EditableInstructionRow } from '../molecules/EditableInstructionRow';
-import { ConfirmModal } from '../molecules/ConfirmModal';
+import { ConfirmModal } from '../modals/ConfirmModal';
 import { TagInput } from '../atoms/TagInput';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';

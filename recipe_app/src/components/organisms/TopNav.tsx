@@ -3,7 +3,7 @@ import { Plus, ArrowLeft, Settings } from 'lucide-react';
 import { useNavigate, useMatch } from 'react-router-dom';
 
 import { Button } from '../atoms/Button';
-import { NewRecipeModal } from './NewRecipeModal';
+import { NewRecipeModal } from '../modals/NewRecipeModal';
 import { useRecipes, RecipeFormData } from '../../context/RecipeContext';
 import { usePreferences } from '../../context/PreferencesContext';
 

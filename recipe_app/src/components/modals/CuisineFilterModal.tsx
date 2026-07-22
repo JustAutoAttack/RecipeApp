@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { X, Search, Check } from 'lucide-react';
+
 import { CuisineMode } from '../../types';
 
 interface Props {

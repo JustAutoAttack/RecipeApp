@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { X, Plus } from 'lucide-react';
 
+import { COMMON_ALLERGENS } from '../../data/allergens';
 import { Input } from '../atoms/Input';
 import { Button } from '../atoms/Button';
 import { TagInput } from '../atoms/TagInput';
 import { FieldLabel } from '../atoms/RequiredLabel';
 import { EditableIngredientRow } from '../molecules/EditableIngredientRow';
 import { EditableInstructionRow } from '../molecules/EditableInstructionRow';
-import { COMMON_ALLERGENS } from '../../data/allergens';
 import { RecipeFormData } from '../../context/RecipeContext';
+
 import { Ingredient } from '../../types';
 
 interface Props {
