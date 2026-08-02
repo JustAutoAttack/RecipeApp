@@ -3,13 +3,15 @@ interface ButtonProps {
 	onClick?: () => void;
 	variant?: 'primary' | 'ghost';
 	type?: 'button' | 'submit';
+	className?: string;
 }
 
 export const Button = ({
 	children,
 	onClick,
 	variant = 'primary',
-	type = 'button'
+	type = 'button',
+	className = ''
 }: ButtonProps) => {
 	const base =
 		'inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-all active:scale-95';
@@ -22,7 +24,7 @@ export const Button = ({
 		<button
 			type={type}
 			onClick={onClick}
-			className={`${base} ${styles}`}
+			className={`${base} ${styles} ${className}`}
 		>
 			{children}
 		</button>
