@@ -9,7 +9,6 @@ precision nutrition, baking, and documentation.
 2. [Technical Architecture & Stack](#ii-technical-architecture--stack)
 3. [Core Features & Implementation Details](#iii-core-features--implementation-details)
 4. [Living Architecture: Development Progress & Implementation Notes](#iv-living-architecture-development-progress--implementation-notes)
-5. [File System Tree](#v-file-system-tree)
 
 **File System Tree**
 
@@ -211,7 +210,7 @@ successfully wired up, and the engineering notes taken along the way.
 
 ---
 
-## VI. Todos & Roadmap
+## Todos & Roadmap
 
 ### 1. Backend, API, & Security
 
