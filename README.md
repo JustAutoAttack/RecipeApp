@@ -208,3 +208,38 @@ successfully wired up, and the engineering notes taken along the way.
 - **Frontend State & UI Wiring:** Connecting the React components directly to
   the newly exposed Tauri IPC commands to replace mock states with live
   local-first database interactions.
+
+---
+
+## VI. Todos & Roadmap
+
+### 1. Backend, API, & Security
+
+- OpenAPI Schema Documentation: Expand documentation coverage across all FastAPI
+  routes, response schemas, and error codes in docs/openapi.json.
+- RBAC (Role-Based Access Control): Implement granular user roles and permission
+  boundaries on the FastAPI backend for community and shared recipes.
+- RLS (Row-Level Security) & Policies: Configure database-level security
+  policies and strict data isolation guarantees to ensure users can only modify
+  their own private records.
+
+### 2. Frontend Screens & Views
+
+- Explore Page: Build out the community discovery feed for browsing and
+  importing shared user recipes.
+- Account & Settings Pages: Design and wire up user profile management,
+  preferences, and account configuration views.
+- Layout Polish: Refine visual containers, typography, and responsiveness across
+  existing pages.
+
+### 3. Cook Mode Enhancements
+
+- UX & Flow Improvements: Optimize step-by-step presentation for kitchen
+  environments (e.g., larger touch targets, high contrast).
+
+### 4. Mobile UI Design & Porting
+
+- Mobile-First Layouts: Design responsive screen variants optimized for mobile
+  form factors.
+- Cross-Platform Readiness: Prepare Tauri mobile configurations for iOS and
+  Android deployment.

@@ -10,10 +10,9 @@ dist-ssr/
 *.local
 
 # Tauri
-recipe_app/src-tauri/target/
-recipe_app/src-tauri/gen/
-recipe_app/src-tauri/icons/
-recipe_app/src-tauri/.env
+mise/src-tauri/target/
+mise/src-tauri/gen/
+mise/src-tauri/icons/
 
 # Python
 __pycache__
@@ -25,5 +24,7 @@ Thumbs.db
 
 # IDEs
 .vscode/
-.idea/
-*.swp
+
+# Environment Variables
+.env
+*.env
