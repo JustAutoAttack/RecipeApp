@@ -1,0 +1,37 @@
+[package]
+name        = "mise"
+version     = "0.1.0"
+description = "A local-first, high-performance recipe management workspace designed for precision nutrition, baking, and documentation."
+authors     = ["you"]
+edition     = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name       = "mise_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+typify      = "0.1"
+serde_json  = "1.0"
+openapiv3   = "2.0"
+
+[dependencies]
+tauri = { version = "2.0", features = [] }
+tauri-plugin-opener = "2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.8", features = [
+    "sqlite",
+    "runtime-tokio",
+    "tls-native-tls",
+    "chrono",
+] }
+reqwest = { version = "0.12", features = ["json"] }
+tokio = { version = "1.0", features = ["full"] }
+chrono = { version = "0.4", features = ["serde"] }
+dotenvy = "0.15"
+typify = "0.1"
+typify-macro = "0.1"
+schemars = "0.8"

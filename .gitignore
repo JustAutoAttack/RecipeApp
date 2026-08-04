@@ -10,10 +10,14 @@ dist-ssr/
 *.local
 
 # Tauri
-src-tauri/target/
-src-tauri/gen/
-src-tauri/icons/
-src-tauri/.env
+recipe_app/src-tauri/target/
+recipe_app/src-tauri/gen/
+recipe_app/src-tauri/icons/
+recipe_app/src-tauri/.env
+
+# Python
+__pycache__
+venv
 
 # OS Files
 .DS_Store
