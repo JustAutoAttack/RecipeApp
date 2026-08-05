@@ -1,6 +1,6 @@
 import { RefreshCw } from 'lucide-react';
 
-import { useNetwork } from '../../context/NetworkContext';
+import { useNetwork } from '../../core/network/NetworkContext';
 
 interface Props {
 	version: string;

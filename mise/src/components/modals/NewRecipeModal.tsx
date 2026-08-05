@@ -8,7 +8,10 @@ import { TagInput } from '../atoms/TagInput';
 import { FieldLabel } from '../atoms/RequiredLabel';
 import { EditableIngredientRow } from '../molecules/EditableIngredientRow';
 import { EditableInstructionRow } from '../molecules/EditableInstructionRow';
-import { useRecipes, RecipeFormData } from '../../context/RecipeContext';
+import {
+	useRecipes,
+	RecipeFormData
+} from '../../features/recipes/RecipeContext';
 
 import { Ingredient } from '../../types';
 

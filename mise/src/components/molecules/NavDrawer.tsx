@@ -13,7 +13,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Button } from '../atoms/Button';
 import { NavItemButton } from '../atoms/NavItemButton';
-import { useCookMode } from '../../context/CookModeContext';
+import { useCookMode } from '../../features/cook_mode/CookModeContext';
 import { useAuth } from '../../context/AuthContext';
 
 interface NavDrawerProps {

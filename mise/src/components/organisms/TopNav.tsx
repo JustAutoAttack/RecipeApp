@@ -5,8 +5,8 @@ import { useNavigate, useMatch, useLocation } from 'react-router-dom';
 
 import { NavDrawer } from '../molecules/NavDrawer';
 import { NewRecipeModal } from '../modals/NewRecipeModal';
-import { useRecipes } from '../../context/RecipeContext';
-import { useCookMode } from '../../context/CookModeContext';
+import { useRecipes } from '../../features/recipes/RecipeContext';
+import { useCookMode } from '../../features/cook_mode/CookModeContext';
 import { useTheme } from '../../context/ThemeContext';
 import { Recipe } from '../../types';
 
