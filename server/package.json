@@ -1,0 +1,27 @@
+{
+	"name": "mise-server",
+	"version": "1.0.0",
+	"description": "Remote TypeScript server for Mise using Hono, Node.js, and Zod",
+	"main": "dist/server.js",
+	"scripts": {
+		"dev": "tsx watch src/server.ts",
+		"build": "tsc",
+		"start": "node dist/server.js",
+		"db:generate": "node scripts/generate-schema.ts"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.12.0",
+		"@hono/zod-validator": "^0.4.0",
+		"better-sqlite3": "^13.0.3",
+		"drizzle-orm": "^0.45.2",
+		"hono": "^4.6.0",
+		"zod": "^3.23.0"
+	},
+	"devDependencies": {
+		"@types/better-sqlite3": "^9.6.0",
+		"@types/node": "^22.0.0",
+		"drizzle-kit": "^0.31.10",
+		"tsx": "^4.19.0",
+		"typescript": "^5.5.0"
+	}
+}
