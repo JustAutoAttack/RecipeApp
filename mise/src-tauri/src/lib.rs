@@ -2,6 +2,7 @@ mod config;
 mod models;
 mod db;
 mod commands;
+mod database;
 
 use config::AppConfig;
 use commands::*;

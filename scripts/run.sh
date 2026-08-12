@@ -38,24 +38,8 @@ npm run db:generate
 
 if [ "$MODE" = "dev" ]; then
     log_info "Starting development environment..."
-    
-    log_info "Launching python dev_server..."
-    if [ ! -d "dev_server/.venv" ]; then
-        log_error "Python virtual environment not found in dev_server/.venv. Run install-requirements.sh first."
-    fi
 
-    # Start python server in a sandboxed background subshell
-    (
-        cd dev_server
-        source .venv/bin/activate
-        python main.py
-    ) &
-    SERVER_PID=$!
-
-    # Gracefully terminate the python server on script exit
-    trap "log_warn 'Stopping dev_server...'; kill $SERVER_PID 2>/dev/null || true" EXIT
-
-    sleep 2
+    # TODO: Dev Server spinup
 
     log_info "Launching Tauri (dev mode)..."
     (cd mise && npm run tauri dev)
