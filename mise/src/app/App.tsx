@@ -1,24 +1,20 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
-import { Dashboard } from '../pages/DashboardPage';
-import { Explore } from '../pages/ExplorePage';
-import { Settings } from '../pages/SettingsPage';
-import { Account } from '../pages/AccountPage';
-import { RecipeDetail } from '../pages/RecipeDetailPage';
-import { AuthPage } from '../pages/AuthPage';
-import { Footer } from './components/molecules/Footer';
-import { TopNav } from './components/organisms/TopNav';
-import { CookModeOverlay } from './components/modals/CookModeOverlay';
-import { RecipeProvider } from '../features/recipes/RecipeContext';
-import { PreferencesProvider } from '../context/PreferencesContext';
-import { NetworkProvider } from '../core/network/NetworkContext';
-import { CookModeProvider } from '../features/cook_mode/CookModeContext';
-import { AuthProvider, useAuth } from '../context/AuthContext';
-import { ThemeProvider } from '../context/ThemeContext';
+import { NetworkProvider, ThemeProvider, APP_VERSION } from '@core';
+import { AuthProvider, useAuth } from '@auth';
+import { RecipeProvider } from '@recipes';
+import { CookModeProvider, CookModeOverlay } from '@cook_mode';
+import { Footer, TopNav } from './components';
+import {
+	AccountPage,
+	AuthPage,
+	DashboardPage,
+	ExplorePage,
+	RecipeDetailPage,
+	SettingsPage
+} from './pages';
 
 import './index.css';
-
-const APP_VERSION = '0.1.0-alpha';
 
 const AuthenticatedLayout = () => {
 	return (
@@ -30,27 +26,27 @@ const AuthenticatedLayout = () => {
 						<Routes>
 							<Route
 								path='/'
-								element={<Dashboard />}
+								element={<DashboardPage />}
 							/>
 							<Route
 								path='/dashboard'
-								element={<Dashboard />}
+								element={<DashboardPage />}
 							/>
 							<Route
 								path='/explore'
-								element={<Explore />}
+								element={<ExplorePage />}
 							/>
 							<Route
 								path='/settings'
-								element={<Settings />}
+								element={<SettingsPage />}
 							/>
 							<Route
 								path='/account'
-								element={<Account />}
+								element={<AccountPage />}
 							/>
 							<Route
 								path='/recipe/:id'
-								element={<RecipeDetail />}
+								element={<RecipeDetailPage />}
 							/>
 							<Route
 								path='*'
@@ -95,33 +91,29 @@ const RequireAuth = ({ children }: { children: React.ReactNode }) => {
 	return <>{children}</>;
 };
 
-function App() {
+export function App() {
 	return (
 		<ThemeProvider>
-			<PreferencesProvider>
-				<NetworkProvider>
-					<AuthProvider>
-						<BrowserRouter>
-							<Routes>
-								<Route
-									path='/auth'
-									element={<AuthLayout />}
-								/>
-								<Route
-									path='/*'
-									element={
-										<RequireAuth>
-											<AuthenticatedLayout />
-										</RequireAuth>
-									}
-								/>
-							</Routes>
-						</BrowserRouter>
-					</AuthProvider>
-				</NetworkProvider>
-			</PreferencesProvider>
+			<NetworkProvider>
+				<AuthProvider>
+					<BrowserRouter>
+						<Routes>
+							<Route
+								path='/auth'
+								element={<AuthLayout />}
+							/>
+							<Route
+								path='/*'
+								element={
+									<RequireAuth>
+										<AuthenticatedLayout />
+									</RequireAuth>
+								}
+							/>
+						</Routes>
+					</BrowserRouter>
+				</AuthProvider>
+			</NetworkProvider>
 		</ThemeProvider>
 	);
 }
-
-export default App;
