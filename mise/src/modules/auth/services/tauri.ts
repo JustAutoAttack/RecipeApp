@@ -1,13 +1,13 @@
-import { invoke } from '@tauri-apps/api/core';
+import { safeInvoke } from '@core/utils/tauri';
 
 import { AuthResponse } from '../types';
 
 export const TauriAuthService = {
 	async signUp(username: string): Promise<AuthResponse> {
-		return invoke<AuthResponse>('sign_up', { username });
+		return safeInvoke<AuthResponse>('sign_up', { username });
 	},
 
 	async signIn(username: string): Promise<AuthResponse> {
-		return invoke<AuthResponse>('sign_in', { username });
+		return safeInvoke<AuthResponse>('sign_in', { username });
 	}
 };
