@@ -1,0 +1,9 @@
+{
+	"client": "better-sqlite3",
+	"connection": {
+		"filename": "database/temp_codegen.db"
+	},
+	"filename": "mise/src/core/types/db-rows",
+	"interfaceNameFormat": "${table}Row",
+	"useNullAsDefault": true
+}

@@ -1,30 +1,76 @@
-# Rust (Cargo)
+# ==========================================
+# Rust & Cargo
+# ==========================================
 /target/
+**/target/
 **/*.rs.bk
-Cargo.lock
+# Cargo.lock is recommended for binary applications to ensure reproducible builds,
+# but can be ignored if preferred.
 
-# Node.js
+# ==========================================
+# Node.js & Vite (Frontend / Root Workspace)
+# ==========================================
 /node_modules/
-dist/
-dist-ssr/
+/dist/
+/dist-ssr/
 *.local
+.vite/
+/mise/node_modules/
 
-# Tauri
-mise/src-tauri/target/
-mise/src-tauri/gen/
-mise/src-tauri/icons/
+# ==========================================
+# Tauri v2 Desktop Workspace
+# ==========================================
+/mise/src-tauri/target/
+/mise/src-tauri/gen/
+/mise/src-tauri/wix/*.msi
+/mise/src-tauri/nsis/*.exe
 
-# Python
-__pycache__
-venv
+# ==========================================
+# Python & FastAPI Dev Server
+# ==========================================
+/dev_server/.venv/
+.venv/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
 
-# OS Files
+# ==========================================
+# Local Databases & Execution State
+# ==========================================
+/dev_server/dev.db
+*.db
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+
+# ==========================================
+# Environment Variables & Secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+*.env
+
+# ==========================================
+# Operating System Files
+# ==========================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
-# IDEs
+# ==========================================
+# IDEs & Text Editors
+# ==========================================
 .vscode/
-
-# Environment Variables
-.env
-*.env
+.idea/
+*.swp
+*.swo
+*.swn
+.cursor/

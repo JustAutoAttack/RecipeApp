@@ -1,244 +1,271 @@
-# Mise en place
+# Mise En Place
 
 A local-first, high-performance recipe management workspace designed for
-precision nutrition, baking, and documentation.
+cooking, baking, nutrition info, grocery listing, and documentation.
 
-**Table of Contents**
+---
 
-1. [The Vision, The Problem, & The Why](#i-the-vision-the-problem--the-why)
-2. [Technical Architecture & Stack](#ii-technical-architecture--stack)
-3. [Core Features & Implementation Details](#iii-core-features--implementation-details)
-4. [Living Architecture: Development Progress & Implementation Notes](#iv-living-architecture-development-progress--implementation-notes)
+## Table of Contents
 
-**File System Tree**
+1. [I. About](#i-about)
+    - [A. Key Highlights](#a-key-highlights)
+2. [II. Stack](#ii-stack)
+    - [A. Repository Layout](#ii-stack)
+3. [III. Usage](#iii-usage)
+    - [A. Getting Started & Installation](#a-getting-started--installation)
+    - [B. Desktop Application](#b-desktop-application)
+4. [IV. Development](#iv-development)
+    - [A. Current Architectural Implementation](#a-current-architectural-implementation)
+    - [B. Development Guidelines & Utilities](#b-development-guidelines--utilities)
+5. [V. Feature Tracker](#v-feature-tracker)
+6. [VI. Product Strategy & Monetization Model](#vi-product-strategy--monetization-model)
+    - [A. Free Tier (Local-First & Offline)](#a-free-tier-local-first--offline)
+    - [B. Paid Tier (Cloud & Social Infrastructure)](#b-paid-tier-cloud--social-infrastructure)
+    - [C. Decentralized P2P Sharing](#c-decentralized-p2p-sharing)
+7. [VII. Future](#vii-future)
+    - [A. Roadmap & Planned Enhancements](#a-roadmap--planned-enhancements)
+        - [1. Backend, API, & Security](#1-backend-api--security)
+        - [2. Frontend & UI Views](#2-frontend--ui-views)
 
-```text
+---
+
+## I. About
+
+Mise is a local-first application engineered to streamline culinary
+documentation, recipe management, and grocery overhead. Standard consumer
+platforms are encumbered by advertisements, informal narratives, and
+unstructured text blocks. Mise captures precise measurements, historical
+variations, ingredient substitutions, and media assets to ensure consistency and
+reproducibility.
+
+### A. Key Highlights
+
+- **Low-Latency Performance:** Instant CRUD operations operating locally without
+  network latency or UI bloat.
+- **Offline-First Architecture:** You shouldn't need WiFi in the kitchen.
+  Designed for environments with intermittent connectivity, utilizing a local
+  embedded database as the primary source of truth.
+- **Structured Metadata:** Tracks discrete attributes such as unit conversions,
+  preparation timers, allergen warnings, and custom scaling parameters.
+
+---
+
+## II. Stack
+
+Mise implements a Backend-for-Frontend (BFF) pattern, maintaining strict
+isolation between native UI runtimes, local embedded persistence, and remote
+synchronization services.
+
+### A. Repository Layout
+
+```bash
 ./
+├── configs/
+│   └── sql-ts.json                   # TypeScript SQL mapping configuration
+├── database/
+│   └── schema.sql                    # Master database schema definition
+├── dev_server/
+│   ├── .venv/                        # Python virtual environment
+│   ├── scripts/                      # Server and database management scripts
+│   ├── src/                          # Python FastAPI source code
+│   ├── dev.db                        # Development database
+│   └── requirements.txt              # Python package dependencies
+├── dist/                             # Build output directory
 ├── docs/
 │   └── openapi.json                  # Cross-language API schema definition
-├── dev_server/
-│   ├── venv/                         # Python virtual environment
-│   ├── scripts/                      # Server and database management scripts
-│   │   ├── generate_openapi.sh       # Proxy to generate openapi.json doc from src
-│   │   └── run.sh                    # Automated virtualenv bootstrap and uvicorn runner
-│   ├── src/                          # Modular Python FastAPI source code
-│   └── dev.db                        # Remote development database
-└── mise/                             # Tauri desktop application workspace
-    ├── scripts/                      # Build, packaging, and helper scripts
-    │   ├── build.sh
-    │   └── installer.sh
-    ├── src/                          # React + TypeScript frontend
-    └── src-tauri/                    # Rust backend, SQLite pool, and sync worker
+├── mise/                             # Tauri desktop application workspace
+│   ├── assets/                       # Tauri application assets and icons
+│   ├── public/                       # Static frontend assets
+│   ├── scripts/                      # Tauri-specific build and helper scripts
+│   ├── src/                          # React + TypeScript frontend application
+│   └── src-tauri/                    # Rust backend, SQLite pool, and sync worker
+├── scripts/                          # Root automation & tooling framework
+│   ├── utils/                        # Shared modular shell utilities
+│   │   ├── colors.sh                 # ANSI color code definitions
+│   │   ├── logger.sh                 # Standardized logging utilities
+│   │   ├── parsers.sh                # Argument parsing and target matching
+│   │   └── wrappers.sh               # Subshell execution and safety wrappers
+│   ├── build.sh                      # Build orchestrator script
+│   ├── generate-models.sh            # Cross-language model generator script
+│   ├── install-requirements.sh       # Dependency installer script
+│   └── run.sh                        # Development environment launcher script
+├── Cargo.toml                        # Workspace-level Rust configuration
+├── index.html                        # Frontend HTML entry point
+├── package.json                      # Root Node.js project manifest & workspace scripts
+├── tsconfig.json                     # TypeScript compiler configuration
+├── tsconfig.node.json                # TypeScript node configuration
+└── vite.config.ts                    # Vite build tool configuration
 ```
 
 ---
 
-## I. The Vision, The Problem, & The Why
+## III. Usage
 
-### What is Mise?
+Project automation is handled via a modular Bash CLI framework in scripts/,
+managing workspace dependencies, build pipelines, and environment execution.
+Execution scripts output clean status logs by default, supporting the --verbose
+or -v flags for verbose execution tracing.
 
-Mise is a local-first recipe management tool I built to solve my own
-frustrations in the kitchen.
+### A. Getting Started & Installation
 
-### Why I Built This (My Motivation)
+**Installing Requirements:**
 
-I cook and bake a lot, and I got tired of how messy digital recipe storage is.
-Most recipe sites and apps are buried under ads, life stories, and clunky
-interfaces. Worse, they treat recipes like simple blocks of text. When I'm in
-the middle of baking, I need precision, speed, and reliability.
+```bash
+# Install all workspace dependencies across Node, Python, and Cargo
+./scripts/install-requirements.sh
 
-I built Mise because I needed a place to actually store and structure my recipes
-the way my brain works. I wanted something personalized—not just a generic
-database, but a tool built around how I prep and execute a dish.
+# Install only specific runtimes quietly (remove unrequired targets)
+./scripts/install-requirements.sh npm pip cargo
 
-Beyond just keeping them for myself, I wanted a way to share my recipes with
-others so they can actually replicate my results. Baking and cooking are
-scientific; small details matter. If someone else uses my recipe, I want them to
-be able to follow the exact steps, ingredient breakdowns, and notes I took to
-get the exact same outcome.
+# Install with full verbose logs
+./scripts/install-requirements.sh -v
+```
 
-### The Problem It Solves
+**Generating Models:**
 
-- **The "Recipe Blog" Fatigue:** No ads, no scrolling past paragraphs of text,
-  no latency. Just clean data.
-- **Offline Reliability:** Kitchens have terrible Wi-Fi. Your recipes shouldn't
-  break just because you're offline. A local-first design means everything lives
-  on your device first.
-- **Lack of Precision:** Standard notes apps don't handle structured data well.
-  Mise treats recipes as data models—tracking exact quantities, history,
-  substitutions, and media.
+```bash
+# Initialize temporary database schema and generate cross-language models (TS, Rust, Python)
+./scripts/generate-models.sh
+```
 
-### High-Level Feature Overview
+**Running:**
 
-- **Local Recipe & User Management:** Instant local CRUD operations for users,
-  recipes, and favorites backed by SQLite.
-- **Granular Ingredient & Metadata Tracking:** Structured data handling for
-  quantities, units, cooking times, cuisines, substitutions, allergy notes, and
-  history.
-- **Media & Video Support:** Ability to attach photos and future video
-  walkthroughs to individual recipes.
-- **Export & Document Generation:** Formatted outputs for printing, PDF
-  generation, and JSON/CSV data backups.
-- **Bidirectional Cloud Sync:** Real-time background replication between the
-  local SQLite database and a custom Python FastAPI backend to share recipes
-  with others.
-- **Secure Authentication & Data Isolation:** Ensuring user data stays secure
-  and private.
+```bash
+# Launch the Python backend and Tauri development environment (default)
+./scripts/run.sh dev
 
----
+# Run the application in production mode (accessing production database and env settings)
+./scripts/run.sh prod
+```
 
-## II. Technical Architecture & Stack
+**Building:**
 
-Mise is built around a **Backend-for-Frontend (BFF)** pattern, ensuring a strict
-separation of concerns across native boundaries, local databases, and remote
-synchronization endpoints.
+```bash
+# Build the Tauri application in development/debug mode
+./scripts/build.sh dev
 
-### 1. Frontend Layer
+# Build the Tauri application for production release (handles environment and version injection)
+./scripts/build.sh prod
+```
 
-- **Framework:** React with TypeScript for a fully type-safe, modular component
-  tree.
-- **Styling:** Tailwind CSS for a responsive, clean layout across desktop and
-  mobile form factors.
-- **Desktop Runtime:** Tauri v2 leveraging native OS webviews for a lightweight,
-  secure footprint without Electron bloat.
-- **IPC Bridge:** Secure asynchronous command bindings connecting the React
-  frontend directly to Rust controllers without exposing filesystem or database
-  primitives to the browser context.
-
-### 2. Backend Layer (Local & Core)
-
-- **Language & Orchestration:** Rust acting as the core application controller,
-  managing lifecycle events, background routines, and secure local state.
-- **Embedded Database:** SQLite (`sqlx`) serving as the local-first primary
-  source of truth, guaranteeing sub-millisecond local reads/writes and complete
-  offline functionality.
-- **Background Workers:** Asynchronous Tokio tasks (`sync_worker.rs`) handling
-  silent heartbeat polling, telemetry checks, and automatic payload
-  synchronization when network conditions allow.
-
-### 3. Sync & Cloud Layer (The In-Betweens & Remote Spoke)
-
-- **Remote Sync API:** A custom Python FastAPI server acting as the remote cloud
-  endpoint for receiving data bundles, managing user states, and hosting shared
-  community recipes.
-- **Data Contracts & Validation:** An OpenAPI specification
-  (`docs/openapi.json`) acting as the cross-language source of truth, enforcing
-  unified payload structures between Rust, TypeScript, and Python.
-- **Database & Schema Synchronization:** A dual-persistence model mirroring
-  local SQLite constraints with remote database schemas (utilizing
-  object-relational mapping / query builders where appropriate) to maintain
-  integrity across local development (`sqlite`), staging, and production
-  environments.
+### B. Desktop Application
 
 ---
 
-## III. Core Features & Implementation Details
+## IV. Development
 
-### Local-First SQLite Storage & Rust Controller
+### A. Current Architectural Implementation
 
-- **Implementation:** The Rust backend (`sqlx`) initializes and manages an
-  embedded SQLite database (`recipes.db`) directly on the user's machine.
-- **Affordance:** All primary reads and writes happen locally first. This
-  guarantees instant UI response times and full functionality even without an
-  active internet connection.
+- **Tauri & Rust Core:** Configured Tauri v2 with a native Rust backend managing
+  connection pooling and foreign-key-constrained SQLite operations via `sqlx`.
 
-### Type-Safe IPC & OpenAPI Integration
+- **IPC & Type Safety:** Strongly typed database row structures mapped to secure
+  Tauri Inter-Process Communication (IPC) handlers.
 
-- **Implementation:** Shared data contracts are defined via an OpenAPI
-  specification (`docs/openapi.json`), which Rust utilizes to guarantee type
-  alignment across the application boundary. Tauri commands bridge the React
-  frontend securely to Rust logic without exposing raw filesystem or database
-  primitives to the webview.
+- **FastAPI Sync Service:** Modular Python backend services handling remote
+  synchronization endpoints and payload validation.
 
-### Granular Recipe & Nutrition Data Models
+- **Asynchronous Sync Worker:** Background Tokio tasks (`sync_worker.rs`)
+  executing polling loops for offline-to-online data replication.
 
-- **Implementation:** Recipes are stored as structured relational schemas rather
-  than unstructured text blobs.
-- **Affordance:** Tracks precise metadata including cooking times, cuisine
-  types, ingredient quantities, historical notes, substitutions, and allergen
-  warnings so steps can be reliably replicated.
+### B. Development Guidelines & Utilities
 
-### Automated Background Synchronization
+- **Modular Shell Architecture:** Shell scripts utilize shared libraries for
+  standardized output formatting (`logger.sh`), argument parsing (`parsers.sh`),
+  and subshell isolation (`wrappers.sh`) to eliminate state leakage and
+  directory drift.
 
-- **Implementation:** A background asynchronous Tokio worker (`sync_worker.rs`)
-  periodically polls the remote Python FastAPI server. When network availability
-  is detected, it pushes local offline modifications and pulls down shared
-  records.
-- **Affordance:** Users can edit recipes offline in the kitchen and have them
-  automatically propagate to the cloud server once back online, allowing others
-  to follow their exact steps.
-
-### Media & Video Support (Planned / In-Progress)
-
-- **Implementation:** Designed to handle binary asset referencing, allowing
-  high-resolution photography and step-by-step video walkthroughs to be linked
-  directly to recipe nodes and synced across environments.
+- **Cross-Language Contracts:** Shared `OpenAPI` specifications enforce explicit
+  boundary contracts across TypeScript, Rust, and Python codebases.
 
 ---
 
-## IV. Living Architecture: Development Progress & Implementation Notes
+## V. Feature Tracker
 
-This section tracks the active state of implementation, what has been
-successfully wired up, and the engineering notes taken along the way.
-
-### 1. Implemented & Operational
-
-- **Tauri + Rust Bootstrap:** Successfully configured Tauri v2 with a Rust
-  backend. Initialized `sqlx` with an embedded SQLite database (`recipes.db`)
-  running foreign key constraints and automated connection pooling.
-- **Core Data Models & Commands:** Built strongly typed row structures
-  (`UserRow`, `RecipeRow`) mapped to database schemas. Established secure Tauri
-  IPC command handlers for fetching, saving, and deleting users and recipes.
-- **Python FastAPI Dev Server:** Spooled up a modular FastAPI backend in
-  `dev_server/` with automated startup management scripts (`run.sh`) to handle
-  remote sync requests and payload exchanges.
-- **Background Sync Infrastructure:** Implemented an asynchronous Tokio worker
-  (`sync_worker.rs`) inside the Tauri setup lifecycle that periodically checks
-  remote server health and handles background data synchronization loops.
-
-### 2. In Progress & Next Up
-
-- **Bidirectional Sync Payloads:** Finalizing the exact payload serialization
-  format between the Rust local SQLite state and the Python FastAPI sync
-  endpoints to handle conflict-free data merging.
-- **Media Attachment Pipeline:** Integrating local file system handlers in Rust
-  to save and reference high-res recipe photos, preparing the architecture for
-  future video upload capabilities.
-- **Frontend State & UI Wiring:** Connecting the React components directly to
-  the newly exposed Tauri IPC commands to replace mock states with live
-  local-first database interactions.
+| Feature / Subsystem                | Scope                | Status         | Notes                                                                                                             |
+| :--------------------------------- | :------------------- | :------------- | :---------------------------------------------------------------------------------------------------------------- |
+| **Local SQLite Engine**            | Core Persistence     | **Finished**   | Embedded storage operational via `sqlx` in Rust.                                                                  |
+| **Cross-Language Codegen**         | Automation CLI       | **Finished**   | Automated script generating TS, Rust, and Python models from master schema.                                       |
+| **Modular Shell Framework**        | Tooling / CLI        | **Finished**   | Standardized loggers, execution wrappers, and argument parsers deployed.                                          |
+| **Recipe Management & Tracking**   | Core Domain          | **Finished**   | Structured storage for quantities, units, scaling parameters, and notes.                                          |
+| **Dashboard Page**                 | Frontend UI          | **Developing** | Central command view for quick-access recipes, recent activity, and shortcuts.                                    |
+| **Pantry & Grocery Integration**   | Core Domain / Pantry | **Developing** | Optional toggle to cross-reference local pantry items against recipe requirements; external grocery app linkouts. |
+| **Tauri v2 IPC Layer**             | Desktop Runtime      | **Developing** | Connecting React frontend state securely to Rust state handlers.                                                  |
+| **FastAPI Sync Service**           | Cloud Sync Backend   | **Developing** | Base routing initialized; payload merging protocols pending.                                                      |
+| **Asynchronous Sync Worker**       | Background Logic     | **Developing** | Tokio worker polling background status loops; validating failure recovery.                                        |
+| **Settings & Accessibility**       | Frontend UI          | **Planned**    | Configuration panels, typography adjustments, high-contrast toggles, and theme management.                        |
+| **Touch-Optimized Cook Mode**      | Frontend UI          | **Planned**    | Active kitchen layout with large touch targets, step-by-step presentation, and timers.                            |
+| **Discovery Page & Global Feed**   | Frontend UI / Social | **Planned**    | Community explore interface for browsing, searching, and importing shared records.                                |
+| **User Profiles Page**             | Frontend UI / Social | **Planned**    | Public creator profiles, saved items, and personal portfolio views.                                               |
+| **P2P `.mise` File Sharing**       | Distribution         | **Planned**    | Binary packet compilation and parsing for zero-cost sharing via messaging/email.                                  |
+| **Subscription Model Gating**      | Business Logic       | **Planned**    | Paywall enforcing limits on global publishing and automated cloud backups while keeping offline features free.    |
+| **Mobile Version (iOS / Android)** | Cross-Platform       | **Planned**    | Tauri mobile targets and responsive UI layouts optimized for mobile form factors.                                 |
 
 ---
 
-## Todos & Roadmap
+## VI. Product Strategy & Monetization Model
 
-### 1. Backend, API, & Security
+Mise implements a cost-aligned monetization strategy: features that operate
+entirely offline and consume zero server infrastructure are permanently free,
+while features requiring centralized storage, global distribution, and
+cross-device synchronization are supported via a paid subscription.
 
-- OpenAPI Schema Documentation: Expand documentation coverage across all FastAPI
-  routes, response schemas, and error codes in docs/openapi.json.
-- RBAC (Role-Based Access Control): Implement granular user roles and permission
-  boundaries on the FastAPI backend for community and shared recipes.
-- RLS (Row-Level Security) & Policies: Configure database-level security
-  policies and strict data isolation guarantees to ensure users can only modify
-  their own private records.
+### A. Free Tier (Local-First & Offline)
 
-### 2. Frontend Screens & Views
+- **Core Functionality:** All capabilities operable without an active internet
+  connection remain free, including local recipe CRUD, embedded SQLite storage,
+  local pantry tracking, and active cooking mode.
+- **Data Portability:** Users retain absolute data ownership with full export
+  and import capabilities for their entire local database at any time.
+- **Discovery Consumption:** Free users can browse the global discovery feed,
+  save recipes locally, and import shared community data packets.
 
-- Explore Page: Build out the community discovery feed for browsing and
-  importing shared user recipes.
-- Account & Settings Pages: Design and wire up user profile management,
-  preferences, and account configuration views.
-- Layout Polish: Refine visual containers, typography, and responsiveness across
-  existing pages.
+### B. Paid Tier (Cloud & Social Infrastructure)
 
-### 3. Cook Mode Enhancements
+- **Automated Cloud Storage & Sync:** Continuous server-side backup and
+  cross-device synchronization, ensuring users never have to manually manage
+  file exports or data re-uploads.
+- **Global Publishing:** Access to publish recipes directly to the public
+  community discovery feed and maintain an active public creator profile.
+- **Advanced Cloud Features:** Remote state management and centralized
+  infrastructure scaling for seamless multi-device workflows.
 
-- UX & Flow Improvements: Optimize step-by-step presentation for kitchen
-  environments (e.g., larger touch targets, high contrast).
+### C. Decentralized P2P Sharing
 
-### 4. Mobile UI Design & Porting
+- **Portable Data Packets:** Zero-cost sharing via compiled binary packets
+  (e.g., `.mise` files) transmitted peer-to-peer over messaging apps, email, or
+  AirDrop.
+- **Native Ingestion:** Recipients can open shared files directly with the
+  application to securely parse and upsert records into their local database
+  without hitting central server infrastructure or incurring hosting costs.
 
-- Mobile-First Layouts: Design responsive screen variants optimized for mobile
-  form factors.
-- Cross-Platform Readiness: Prepare Tauri mobile configurations for iOS and
-  Android deployment.
+---
+
+## VII. Future
+
+### A. Roadmap & Planned Enhancements
+
+#### 1. Backend, API & Security
+
+- **OpenAPI Expansion:** Broaden documentation coverage across all FastAPI route
+  parameters, response payloads, and error codes.
+
+- **Access Control (RBAC):** Introduce role-based permission boundaries for
+  shared community datasets.
+
+- **Data Isolation (RLS):** Implement database-level policies to enforce strict
+  private record separation.
+
+#### 2. Frontend & UI Views
+
+- **Discovery Feed:** Implement a community explore interface for importing
+  shared records.
+
+- **Settings & Account Management:** Build user profile configuration and
+  preference views.
+
+- **Optimized Cook Mode:** Design high-contrast, touch-optimized layouts for
+  active workspace usage.
+
+- **Cross-Platform Porting:** Finalize Tauri mobile targets for iOS and Android
+  deployment.
