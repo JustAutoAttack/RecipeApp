@@ -8,40 +8,23 @@
 # but can be ignored if preferred.
 
 # ==========================================
+# Node.js
+# ==========================================
+node_modules/
+**/node_modules/
+
+# ==========================================
 # Node.js & Vite (Frontend / Root Workspace)
 # ==========================================
-/node_modules/
 /dist/
 /dist-ssr/
 *.local
 .vite/
-/mise/node_modules/
-
-# ==========================================
-# Tauri v2 Desktop Workspace
-# ==========================================
-/mise/src-tauri/target/
-/mise/src-tauri/gen/
-/mise/src-tauri/wix/*.msi
-/mise/src-tauri/nsis/*.exe
-
-# ==========================================
-# Python & FastAPI Dev Server
-# ==========================================
-/dev_server/.venv/
-.venv/
-**/__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-.ruff_cache/
-*.egg-info/
 
 # ==========================================
 # Local Databases & Execution State
 # ==========================================
-/dev_server/dev.db
-*.db
+*.db*
 *.sqlite
 *.sqlite3
 *.sqlite-journal

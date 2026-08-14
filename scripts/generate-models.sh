@@ -57,13 +57,13 @@ if [ -d "mise/src-tauri" ]; then
 
     if [ -f "$RUST_OUTPUT/prelude.rs" ]; then
         python3 -c "
-path = '$RUST_OUTPUT/prelude.rs'
-with open(path, 'r') as f:
-    content = f.read()
-if '#![allow(unused_imports)]' not in content:
-    with open(path, 'w') as f:
-        f.write('#![allow(unused_imports)]\n' + content)
-"
+            path = '$RUST_OUTPUT/prelude.rs'
+            with open(path, 'r') as f:
+                content = f.read()
+            if '#![allow(unused_imports)]' not in content:
+                with open(path, 'w') as f:
+                    f.write('#![allow(unused_imports)]\n' + content)
+        "
     fi
 
     mkdir -p "$DTO_DIR" "$ENUMS_DIR"

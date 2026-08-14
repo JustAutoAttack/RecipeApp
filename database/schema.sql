@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS recipes (
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS favorites (
+CREATE TABLE IF NOT EXISTS favorited_recipes (
     user_id TEXT NOT NULL,
     recipe_id TEXT NOT NULL,
     created_at TEXT NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS favorites (
     FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS likes (
+CREATE TABLE IF NOT EXISTS liked_recipes (
     user_id TEXT NOT NULL,
     recipe_id TEXT NOT NULL,
     created_at TEXT NOT NULL,
@@ -84,7 +84,16 @@ CREATE TABLE IF NOT EXISTS likes (
     FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS pantry (
+CREATE TABLE IF NOT EXISTS followed_users (
+    user_id TEXT NOT NULL,
+    followed_user_id TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    PRIMARY KEY (user_id, followed_user_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (followed_user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS pantries (
     id TEXT PRIMARY KEY NOT NULL,
     owner_id TEXT UNIQUE NOT NULL,
     -- JSON array mapped to ingredient models
@@ -104,7 +113,6 @@ CREATE TABLE IF NOT EXISTS grocery_lists (
     created_at TEXT NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
-
 
 CREATE VIEW IF NOT EXISTS full_recipe_view AS
 SELECT recipes.id,
@@ -128,13 +136,13 @@ FROM recipes
     LEFT JOIN (
         SELECT recipe_id,
             COUNT(*) AS likes_count
-        FROM likes
+        FROM liked_recipes
         GROUP BY recipe_id
     ) AS likes_row ON recipes.id = likes_row.recipe_id
     LEFT JOIN (
         SELECT recipe_id,
             COUNT(*) AS favorites_count
-        FROM favorites
+        FROM favorited_recipes
         GROUP BY recipe_id
     ) AS favorites_row ON recipes.id = favorites_row.recipe_id;
 
@@ -150,8 +158,11 @@ SELECT users.id,
     COALESCE(subscriptions.tier, 'free') AS subscription_tier,
     COALESCE(subscriptions.activity_status, 'active') AS subscription_status,
     COALESCE(recipe_stats.recipe_count, 0) AS recipe_count,
-    COALESCE(like_stats.total_likes_received, 0) AS total_likes_received
-FROM users
+    COALESCE(like_stats.total_likes_received, 0) AS total_likes_received,
+    COALESCE(favorite_stats.total_favorites_received, 0) AS total_favorites_received,
+    COALESCE(follower_stats.follower_count, 0) AS follower_count,
+    COALESCE(following_stats.following_count, 0) AS following_count
+FROM users -- Join user subscription details
     LEFT JOIN subscriptions ON users.id = subscriptions.user_id
     LEFT JOIN (
         SELECT owner_id,
@@ -161,8 +172,27 @@ FROM users
     ) AS recipe_stats ON users.id = recipe_stats.owner_id
     LEFT JOIN (
         SELECT recipes.owner_id,
-            COUNT(likes.recipe_id) AS total_likes_received
+            COUNT(liked_recipes.recipe_id) AS total_likes_received
         FROM recipes
-            JOIN likes ON recipes.id = likes.recipe_id
+            JOIN liked_recipes ON recipes.id = liked_recipes.recipe_id
         GROUP BY recipes.owner_id
-    ) AS like_stats ON users.id = like_stats.owner_id;
+    ) AS like_stats ON users.id = like_stats.owner_id
+    LEFT JOIN (
+        SELECT recipes.owner_id,
+            COUNT(favorited_recipes.recipe_id) AS total_favorites_received
+        FROM recipes
+            JOIN favorited_recipes ON recipes.id = favorited_recipes.recipe_id
+        GROUP BY recipes.owner_id
+    ) AS favorite_stats ON users.id = favorite_stats.owner_id
+    LEFT JOIN (
+        SELECT followed_user_id,
+            COUNT(*) AS follower_count
+        FROM followed_users
+        GROUP BY followed_user_id
+    ) AS follower_stats ON users.id = follower_stats.followed_user_id
+    LEFT JOIN (
+        SELECT user_id,
+            COUNT(*) AS following_count
+        FROM followed_users
+        GROUP BY user_id
+    ) AS following_stats ON users.id = following_stats.user_id;

@@ -1,5 +1,5 @@
 {
-	"name": "mise_repo",
+	"name": "mise-repo",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -9,9 +9,5 @@
 		"run:prod": "./scripts/run.sh prod",
 		"build:dev": "./scripts/build.sh dev",
 		"build:prod": "./scripts/build.sh prod"
-	},
-	"devDependencies": {
-		"@rmp135/sql-ts": "^2.2.0",
-		"better-sqlite3": "^11.10.0"
 	}
 }

@@ -31,3 +31,15 @@ export type ChangePasswordResDTO = z.infer<typeof changePasswordResSchema>;
 
 export type RefreshTokenReqDTO = z.infer<typeof refreshTokenReqSchema>;
 export type RefreshTokenResDTO = z.infer<typeof refreshTokenResSchema>;
+
+export interface SignUpInput {
+	username: string;
+	email: string;
+	password: string;
+	display_name: string;
+}
+
+export interface SignInInput {
+	email: string;
+	password: string;
+}

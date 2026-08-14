@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { metaSchema } from '../shared';
+
+import { metaSchema } from '@core';
 
 const baseRecipeSchema = z.object({
 	owner_id: z.string().uuid(),

@@ -1,16 +1,6 @@
 import { z } from 'zod';
 import { readUserSchema } from '../users';
-
-// --- Token Shapes ---
-export const tokenPairSchema = z.object({
-	access_token: z.string(),
-	refresh_token: z.string()
-});
-
-export const messageResponseSchema = z.object({
-	success: z.boolean(),
-	message: z.string()
-});
+import { messageResponseSchema, tokenPairSchema } from '../../../core/common';
 
 // --- Sign Up ---
 export const signUpReqSchema = z.object({
@@ -34,7 +24,7 @@ export const signUpResSchema = z.object({
 // --- Sign In ---
 export const signInReqSchema = z.object({
 	email: z.string().email('Invalid email address'),
-	password: z.string().min(1, 'Password is required')
+	password: z.string().min(8, 'Password is required')
 });
 
 export const signInResSchema = signUpResSchema;
@@ -55,7 +45,7 @@ export const forgotPasswordResSchema = messageResponseSchema;
 
 // --- Change Password ---
 export const changePasswordReqSchema = z.object({
-	current_password: z.string().min(1, 'Current password is required'),
+	current_password: z.string().min(8, 'Current password is required'),
 	new_password: z
 		.string()
 		.min(8, 'New password must be at least 8 characters')

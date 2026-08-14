@@ -1,3 +1,3 @@
 export * from './schemas';
-export * from './route';
+export * from './router';
 export * from './types';

@@ -2,10 +2,11 @@
 
 pub mod prelude;
 
-pub mod favorites;
+pub mod favorited_recipes;
+pub mod followed_users;
 pub mod grocery_lists;
-pub mod likes;
-pub mod pantry;
+pub mod liked_recipes;
+pub mod pantries;
 pub mod recipes;
 pub mod sessions;
 pub mod subscriptions;
