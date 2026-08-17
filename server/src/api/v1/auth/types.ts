@@ -1,45 +1,16 @@
-import z from 'zod';
+import { z } from '@hono/zod-openapi';
 import {
-	changePasswordReqSchema,
-	changePasswordResSchema,
-	forgotPasswordReqSchema,
-	forgotPasswordResSchema,
-	refreshTokenReqSchema,
-	refreshTokenResSchema,
-	signInReqSchema,
-	signInResSchema,
-	signOutReqSchema,
-	signOutResSchema,
-	signUpReqSchema,
-	signUpResSchema
+	AuthTokensSchema,
+	RefreshResponseSchema,
+	RefreshSchema,
+	SignInSchema,
+	SignUpSchema,
+	UserSchema
 } from './schemas';
 
-export type SignUpReqDTO = z.infer<typeof signUpReqSchema>;
-export type SignUpResDTO = z.infer<typeof signUpResSchema>;
-
-export type SignInReqDTO = z.infer<typeof signInReqSchema>;
-export type SignInResDTO = z.infer<typeof signInResSchema>;
-
-export type SignOutReqDTO = z.infer<typeof signOutReqSchema>;
-export type SignOutResDTO = z.infer<typeof signOutResSchema>;
-
-export type ForgotPasswordReqDTO = z.infer<typeof forgotPasswordReqSchema>;
-export type ForgotPasswordResDTO = z.infer<typeof forgotPasswordResSchema>;
-
-export type ChangePasswordReqDTO = z.infer<typeof changePasswordReqSchema>;
-export type ChangePasswordResDTO = z.infer<typeof changePasswordResSchema>;
-
-export type RefreshTokenReqDTO = z.infer<typeof refreshTokenReqSchema>;
-export type RefreshTokenResDTO = z.infer<typeof refreshTokenResSchema>;
-
-export interface SignUpInput {
-	username: string;
-	email: string;
-	password: string;
-	display_name: string;
-}
-
-export interface SignInInput {
-	email: string;
-	password: string;
-}
+export type SignUpInput = z.infer<typeof SignUpSchema>;
+export type SignInInput = z.infer<typeof SignInSchema>;
+export type RefreshInput = z.infer<typeof RefreshSchema>;
+export type User = z.infer<typeof UserSchema>;
+export type AuthTokens = z.infer<typeof AuthTokensSchema>;
+export type RefreshResponse = z.infer<typeof RefreshResponseSchema>;

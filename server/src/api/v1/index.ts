@@ -1,10 +1,10 @@
-import { Hono } from 'hono';
+import { OpenAPIHono } from '@hono/zod-openapi';
 
 import { authRouter } from './auth';
 import { usersRouter } from './users';
 import { recipesRouter } from './recipes';
 
-export const v1Router = new Hono();
+export const v1Router = new OpenAPIHono();
 
 v1Router.route('/auth', authRouter);
 v1Router.route('/users', usersRouter);

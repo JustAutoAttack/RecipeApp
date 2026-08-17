@@ -1,64 +1,48 @@
-import { z } from 'zod';
-import { readUserSchema } from '../users';
-import { messageResponseSchema, tokenPairSchema } from '../../../core/common';
+import { z } from '@hono/zod-openapi';
 
-// --- Sign Up ---
-export const signUpReqSchema = z.object({
-	username: z.string().min(3, 'Username must be at least 3 characters'),
-	email: z.string().email('Invalid email address'),
-	password: z.string().min(8, 'Password must be at least 8 characters'),
-	display_name: z.string().min(1, 'Display name is required'),
-	theme: z.string().default('system'),
-	allergens: z.array(z.string()).optional(),
-	pantry_tracking_enabled: z.boolean().default(true)
+export const ErrorSchema = z.object({
+	error: z.string().openapi({ example: 'Invalid credentials' })
 });
 
-export const signUpResSchema = z.object({
-	success: z.boolean(),
-	data: z.object({
-		user: readUserSchema,
-		tokens: tokenPairSchema
-	})
+export const SignUpSchema = z.object({
+	email: z.string().email().openapi({ example: 'user@example.com' }),
+	password: z.string().min(8).openapi({ example: 'SuperSecret123!' }),
+	username: z.string().min(1).openapi({ example: 'AlexDeveloper' })
 });
 
-// --- Sign In ---
-export const signInReqSchema = z.object({
-	email: z.string().email('Invalid email address'),
-	password: z.string().min(8, 'Password is required')
+export const SignInSchema = z.object({
+	email: z.string().email().openapi({ example: 'user@example.com' }),
+	password: z.string().min(1).openapi({ example: 'SuperSecret123!' })
 });
 
-export const signInResSchema = signUpResSchema;
-
-// --- Sign Out---
-export const signOutReqSchema = z.object({
-	refresh_token: z.string().optional()
-});
-
-export const signOutResSchema = messageResponseSchema;
-
-// --- Forgot Password ---
-export const forgotPasswordReqSchema = z.object({
-	email: z.string().email('Invalid email address')
-});
-
-export const forgotPasswordResSchema = messageResponseSchema;
-
-// --- Change Password ---
-export const changePasswordReqSchema = z.object({
-	current_password: z.string().min(8, 'Current password is required'),
-	new_password: z
+export const RefreshSchema = z.object({
+	refreshToken: z
 		.string()
-		.min(8, 'New password must be at least 8 characters')
+		.min(1)
+		.openapi({ example: 'eyJhbGciOiJIUzI1Ni...' })
 });
 
-export const changePasswordResSchema = messageResponseSchema;
-
-// --- Refresh Token ---
-export const refreshTokenReqSchema = z.object({
-	refresh_token: z.string().min(1, 'Refresh token is required')
+export const UserSchema = z.object({
+	id: z.string().openapi({ example: 'usr_123456' }),
+	email: z.string().email().openapi({ example: 'user@example.com' }),
+	username: z.string().openapi({ example: 'Alex Developer' })
 });
 
-export const refreshTokenResSchema = z.object({
-	success: z.boolean(),
-	data: tokenPairSchema
+export const AuthTokensSchema = z.object({
+	accessToken: z.string().openapi({ example: 'eyJhbGciOiJIUzI1Ni...' }),
+	refreshToken: z.string().openapi({ example: 'eyJhbGciOiJIUzI1Ni...' }),
+	user: UserSchema
+});
+
+export const RefreshResponseSchema = z.object({
+	accessToken: z.string().openapi({ example: 'eyJhbGciOiJIUzI1Ni...' }),
+	refreshToken: z
+		.string()
+		.optional()
+		.openapi({ example: 'eyJhbGciOiJIUzI1Ni...' })
+});
+
+export const SignOutResponseSchema = z.object({
+	success: z.boolean().openapi({ example: true }),
+	message: z.string().openapi({ example: 'Signed out successfully' })
 });
