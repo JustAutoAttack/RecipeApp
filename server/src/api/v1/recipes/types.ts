@@ -1,10 +1,22 @@
-import z from 'zod';
+import { z } from '@hono/zod-openapi';
+
 import {
-	readRecipeSchema,
-	createRecipeSchema,
-	updateRecipeSchema
+	CreateRecipeSchema,
+	IngredientModelSchema,
+	InstructionStepModelSchema,
+	RecipeParamSchema,
+	RecipeQuerySchema,
+	RecipeSchema,
+	SubstitutionModelSchema,
+	UpdateRecipeSchema
 } from './schemas';
 
-export type CreateRecipeDTO = z.infer<typeof createRecipeSchema>;
-export type ReadRecipeDTO = z.infer<typeof readRecipeSchema>;
-export type UpdateRecipeDTO = z.infer<typeof updateRecipeSchema>;
+export type IngredientModel = z.infer<typeof IngredientModelSchema>;
+export type InstructionStepModel = z.infer<typeof InstructionStepModelSchema>;
+export type SubstitutionModel = z.infer<typeof SubstitutionModelSchema>;
+
+export type RecipeParam = z.infer<typeof RecipeParamSchema>;
+export type RecipeQuery = z.infer<typeof RecipeQuerySchema>;
+export type Recipe = z.infer<typeof RecipeSchema>;
+export type CreateRecipeInput = z.infer<typeof CreateRecipeSchema>;
+export type UpdateRecipeInput = z.infer<typeof UpdateRecipeSchema>;

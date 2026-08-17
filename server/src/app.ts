@@ -7,6 +7,15 @@ import { requestMiddleware, responseMiddleware } from './core';
 import { healthRouter } from './health';
 import { apiRouter } from './api';
 
+export const openAPIConfig = {
+	openapi: '3.0.0',
+	info: {
+		title: 'Mise Server API',
+		version: '1.0.0',
+		description: 'API documentation for Mise backend services'
+	}
+} as const;
+
 export function createApp(): OpenAPIHono {
 	const app = new OpenAPIHono();
 
@@ -21,14 +30,7 @@ export function createApp(): OpenAPIHono {
 	app.route('/api', apiRouter);
 
 	// OpenAPI v3.0 Specification Endpoint
-	app.doc('/doc', {
-		openapi: '3.0.0',
-		info: {
-			title: 'Mise Server API',
-			version: '1.0.0',
-			description: 'API documentation for Mise backend services'
-		}
-	});
+	app.doc('/doc', openAPIConfig);
 
 	// Interactive Swagger UI
 	app.get('/swagger', swaggerUI({ url: '/doc' }));
