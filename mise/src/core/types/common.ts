@@ -26,11 +26,3 @@ export type SortOption =
 	| 'duration-desc';
 export type ThemeMode = 'light' | 'dark';
 export type ConnectionState = 'connected' | 'syncing' | 'offline' | 'error';
-
-export interface Ingredient {
-	id: string;
-	name: string;
-	brand?: string;
-	amount: number;
-	unit: UnitValue;
-}

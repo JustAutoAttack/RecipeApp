@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"lib": ["ES2022"],
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"paths": {
+			"@/*": ["./src/*"],
+			"@core": ["./src/core"],
+			"@core/*": ["./src/core/*"],
+			"@api": ["./src/api"],
+			"@api/*": ["./src/api/*"],
+			"@database": ["./src/database"],
+			"@database/*": ["./src/database/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
+}

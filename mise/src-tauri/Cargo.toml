@@ -35,3 +35,11 @@ dotenvy = "0.15"
 typify = "0.1"
 typify-macro = "0.1"
 schemars = "0.8"
+ts-rs = { version = "10.0", features = ["serde-compat"] }
+sea-orm = { version = "1.1", features = [
+    "sqlx-sqlite",
+    "runtime-tokio-native-tls",
+    "macros",
+    "with-chrono",
+] }
+
