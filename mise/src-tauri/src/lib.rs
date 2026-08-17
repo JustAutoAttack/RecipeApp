@@ -1,5 +1,4 @@
 mod config;
-mod models;
 mod db;
 mod commands;
 mod database;
@@ -63,3 +62,4 @@ pub fn run() {
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
+pub use database::models as models;
