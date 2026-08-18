@@ -184,5 +184,5 @@ if (fs.existsSync(dbPath)) {
 }
 
 console.log(
-	`✨ Successfully generated Drizzle schema (tables & views) at ${outputTsPath}`
+	`Successfully generated Drizzle schema (tables & views) at ${outputTsPath}`
 );

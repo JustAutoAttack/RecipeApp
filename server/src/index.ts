@@ -1,15 +1,20 @@
 import { serve } from '@hono/node-server';
-import { Hono } from 'hono';
 
-import { ENV } from './core';
 import { createApp } from './app';
+import { ENV } from './core';
 
 try {
-	const app: Hono = createApp();
+	const app = createApp();
+
 	serve({
 		fetch: app.fetch,
 		port: Number(ENV.PORT)
 	});
+
+	const baseUrl = `http://localhost:${ENV.PORT}`;
+	console.log(`Mise server running on ${baseUrl}`);
+	console.log(`Swagger UI available at ${baseUrl}/swagger`);
+	console.log(`OpenAPI Spec available at ${baseUrl}/doc`);
 } catch (error) {
 	console.error(
 		`Error starting Mise server on http://localhost:${ENV.PORT}:`,
@@ -17,5 +22,3 @@ try {
 	);
 	process.exit(1);
 }
-
-console.log(`Mise server running on http://localhost:${ENV.PORT}`);

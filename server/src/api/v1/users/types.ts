@@ -1,6 +1,13 @@
-import z from 'zod';
-import { createUserSchema, readUserSchema, updateUserSchema } from './schemas';
+import { z } from '@hono/zod-openapi';
 
-export type CreateUserDTO = z.infer<typeof createUserSchema>;
-export type ReadUserDTO = z.infer<typeof readUserSchema>;
-export type UpdateUserDTO = z.infer<typeof updateUserSchema>;
+import {
+	UpdateUserProfileSchema,
+	UserParamSchema,
+	UserPrivateProfileSchema,
+	UserPublicProfileSchema
+} from './schemas';
+
+export type UserParam = z.infer<typeof UserParamSchema>;
+export type UserPrivateProfile = z.infer<typeof UserPrivateProfileSchema>;
+export type UserPublicProfile = z.infer<typeof UserPublicProfileSchema>;
+export type UpdateUserProfileInput = z.infer<typeof UpdateUserProfileSchema>;
